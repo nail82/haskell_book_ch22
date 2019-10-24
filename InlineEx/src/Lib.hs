@@ -1,7 +1,7 @@
--- 22
 module Lib where
 
 import Control.Applicative
+import ReaderType
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
@@ -48,10 +48,15 @@ getDogR = Dog <$> dogName <*> address
 
 
 -- Pg 877
+-- Make a local version of Reader since the real
+-- one is hiding these days.
 myLiftA2 :: Applicative f =>
             (a -> b -> c)
             -> f a -> f b -> f c
 myLiftA2 d fa fb = d <$> fa <*> fb
 
-asks :: (r -> a) -> Reader r a
-asks f = undefined
+myAsk :: Reader a a
+myAsk = Reader id
+
+myAsks :: (r -> a) -> Reader r a
+myAsks ra = Reader ra
