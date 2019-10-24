@@ -15,8 +15,7 @@ instance Applicative (Reader r) where
     -- Puts an `a' inside a Reader that alway returns an `a'
     -- const wasn't even in my thought process
     pure a = Reader $ const a
-
-    (<*>) (Reader fb) (Reader ra) =  undefined
+    (<*>) (Reader f1) (Reader f2) = Reader (f1 . f2)
 
 
 -- Reader oneType :: Reader String Int
@@ -30,3 +29,6 @@ twoTypes c cs = length $ c : cs
 -- Reader threeTypes :: Reader Int (Char -> String -> Int)
 threeTypes :: Int -> Char -> String -> Int
 threeTypes x c cs = x + (length $ c : cs)
+
+--(<*>) :: f        (a -> b) -> f a        -> f b
+--         Reader r (a -> b) -> Reader r a -> Reader r b
